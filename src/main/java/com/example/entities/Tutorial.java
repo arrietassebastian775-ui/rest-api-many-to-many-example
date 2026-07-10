@@ -43,8 +43,8 @@ public class Tutorial implements Serializable {
 
     @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "tutorial_tags", joinColumns = { @JoinColumn(name = "tutorial_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "tag_id") })
+    // @JoinTable(name = "tutorial_tags", joinColumns = { @JoinColumn(name = "tutorial_id") }, inverseJoinColumns = {
+    //         @JoinColumn(name = "tag_id") })
     private Set<Tag> tags = new HashSet<>();
 
     public void addTag(Tag tag) {
