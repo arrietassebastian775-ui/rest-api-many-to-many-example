@@ -14,6 +14,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,14 +39,21 @@ public class Tutorial implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "El titulo del tutorial es obligatorio")
+    @Size(min = 3, max = 100, message = "El titulo debe tener entre 3 y 100 caracteres")
     private String title;
+
+    @NotBlank(message = "La descripcion del tutorial es obligatoria")
+    @Size(max = 255, message = "La descripcion no puede superar los 255 caracteres")
     private String description;
+
     private Boolean published;
 
     @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     // @JoinTable(name = "tutorial_tags", joinColumns = { @JoinColumn(name = "tutorial_id") }, inverseJoinColumns = {
     //         @JoinColumn(name = "tag_id") })
+    @ToString.Exclude
     private Set<Tag> tags = new HashSet<>();
 
     public void addTag(Tag tag) {

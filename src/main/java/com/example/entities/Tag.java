@@ -13,6 +13,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +35,9 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotBlank(message = "El nombre de la etiqueta es obligatorio")
+    @Size(min = 2, max = 30, message = "El nombre de la etiqueta debe tener entre 2 y 30 caracteres")
     private String name;
 
     @Builder.Default
@@ -40,7 +45,7 @@ public class Tag {
          cascade = {CascadeType.PERSIST, CascadeType.MERGE},
          mappedBy = "tags")
     @JsonIgnore
+    @ToString.Exclude
     private Set<Tutorial> tutorials = new HashSet<>();
-
 
 }
